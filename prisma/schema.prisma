@@ -13,9 +13,68 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Product {
+    id String @id @unique @default(uuid()) 
+    name String 
+    description String?
+    price Float
+    imageUrl String? 
+    categories Category[]
+    cartItems CartItem[]
+    orderItems OrderItem[] 
+}
+
+model Category { 
+    id String @id @unique @default(uuid())
+    name String 
+    products Product[]
+} 
+
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id       String @id @unique @default(uuid()) 
+  username String  @unique 
+  email    String  @unique
+  password String
+  orders   Order[]
+  cart     Cart?
+  role     Role    @default(USER) 
+}
+
+model Cart {
+  cartId String @id @unique @default(uuid()) 
+  userId     String @unique 
+  user       User         @relation(fields: [userId], references: [id])
+  items      CartItem[]
+}
+
+model CartItem {
+  id String @id @unique @default(uuid()) 
+  cartId     String
+  cart       Cart       @relation(fields: [cartId], references: [cartId])
+  productId  String
+  product    Product    @relation(fields: [productId], references: [id])
+  quantity   Int
+}
+
+model Order {
+  id String @id @unique @default(uuid()) 
+  userId      String   
+  user        User     @relation(fields: [userId], references: [id])
+  totalPrice  Float
+  orderItems  OrderItem[]
+}
+
+model OrderItem {
+  id String @id @unique @default(uuid()) 
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+}
+
+enum Role {
+    USER
+    ADMIN
 }
 

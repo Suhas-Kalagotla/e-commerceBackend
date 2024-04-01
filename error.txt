@@ -1,0 +1,11 @@
+[1m[31mError: [39m[22m[31mP1012
+
+[39m[31merror: Error parsing attribute "@relation": A one-to-one relation must use unique fields on the defining side. Either add an `@unique` attribute to the field `userId`, or change the relation to one-to-many.
+  -->  schema.prisma:44
+   | 
+43 |   userId     String 
+44 |   user       User         @relation(fields: [userId], references: [id])
+45 |   items      CartItem[]
+   | 
+[39m
+
