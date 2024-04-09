@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 export const register = async (req: Request, res: Response) => {
   try {
     let { username, email, password } = req.body;
-    console.log("hit"); 
     const isExists = await prisma.user.findFirst({
       where: {
         OR: [

@@ -1,8 +1,5 @@
-import express from 'express'
-import { create } from "../controllers/product"; 
+import express from "express";
 
-const productRouter = express.Router(); 
+const productRouter = express.Router();
 
-productRouter.post("/create",create);
-
-export default productRouter; 
+export default productRouter;
