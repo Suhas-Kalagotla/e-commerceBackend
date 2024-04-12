@@ -28,15 +28,13 @@ export const create = async (
       }
     });
 
-    const imagePath = path.join(__dirname, filePath);
-
     try {
       const createProduct = await prisma.product.create({
         data: {
           name,
           description,
           price: Number(price),
-          imageUrl: imagePath,
+          imageUrl: fileName,
         },
       });
       return res.status(201).json({
@@ -49,5 +47,14 @@ export const create = async (
     }
   } catch (error: any) {
     return next(createError(400, (error as Error).message));
+  }
+};
+
+export const getAll = async (req: Request, res: Response) => {
+  try {
+    const products = await prisma.product.findMany();
+    res.status(200).json({ success: true, products: products });
+  } catch (error: any) {
+    throw createError(400, (error as Error).message);
   }
 };

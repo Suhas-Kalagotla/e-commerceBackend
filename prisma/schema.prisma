@@ -19,16 +19,16 @@ model Product {
     description String?
     price Float
     imageUrl String? 
-    categories Category[]
+    categories Category @default(mens) 
     cartItems CartItem[]
     orderItems OrderItem[] 
 }
 
-model Category { 
-    id String @id @unique @default(uuid())
-    name String 
-    products Product[]
-} 
+//model Category { 
+//    id String @id @unique @default(uuid())
+//    name String 
+//    products Product[]
+//} 
 
 model User {
   id       String @id @unique @default(uuid()) 
@@ -76,5 +76,10 @@ model OrderItem {
 enum Role {
     USER
     ADMIN
+}
+
+enum Category{
+    mens
+    womens
 }
 

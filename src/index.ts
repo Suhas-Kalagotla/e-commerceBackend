@@ -4,6 +4,7 @@ import prisma from "../prisma/prismaClient";
 import createError from "http-errors";
 import cors from "cors";
 import { authRouter, userRouter, productRouter } from "../routes";
+import path from "path";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use("/public", express.static(path.join(__dirname, "../public/uploads")));
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
