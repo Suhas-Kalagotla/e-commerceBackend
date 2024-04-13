@@ -4,6 +4,7 @@ import path from "path";
 import prisma from "../prisma/prismaClient";
 import createError from "http-errors";
 import express from "express";
+import { Category } from "@prisma/client";
 
 export const create = async (
   req: Request,
@@ -11,7 +12,7 @@ export const create = async (
   next: express.NextFunction,
 ) => {
   try {
-    const { name, description, price, image } = req.body;
+    const { name, description, price, image, category } = req.body;
     if (!image) {
       throw createError(400, "No file Uploaded");
     }
@@ -35,6 +36,7 @@ export const create = async (
           description,
           price: Number(price),
           imageUrl: fileName,
+          category: category,
         },
       });
       return res.status(201).json({
@@ -52,7 +54,10 @@ export const create = async (
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    const products = await prisma.product.findMany();
+    const { category } = req.query;
+    const products = await prisma.product.findMany({
+      where: category === "all" ? {} : { category: category as Category },
+    });
     res.status(200).json({ success: true, products: products });
   } catch (error: any) {
     throw createError(400, (error as Error).message);

@@ -19,7 +19,7 @@ model Product {
     description String?
     price Float
     imageUrl String? 
-    categories Category @default(mens) 
+    category Category @default(mens) 
     cartItems CartItem[]
     orderItems OrderItem[] 
 }
