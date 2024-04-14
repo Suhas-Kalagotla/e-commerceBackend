@@ -32,25 +32,26 @@ model Product {
 
 model User {
   id       String @id @unique @default(uuid()) 
-  username String  @unique 
-  email    String  @unique
+  username String @unique 
+  email    String @unique
   password String
   orders   Order[]
-  cart     Cart?
+  cartId   String?  @unique
+  cart     Cart?    @relation(fields: [cartId], references: [id]) 
   role     Role    @default(USER) 
 }
 
 model Cart {
-  cartId String @id @unique @default(uuid()) 
-  userId     String @unique 
-  user       User         @relation(fields: [userId], references: [id])
-  items      CartItem[]
+  id     String    @id @unique @default(uuid()) 
+  userId String? 
+  user   User?   
+  items  CartItem[]
 }
 
 model CartItem {
   id String @id @unique @default(uuid()) 
   cartId     String
-  cart       Cart       @relation(fields: [cartId], references: [cartId])
+  cart       Cart       @relation(fields: [cartId], references: [id])
   productId  String
   product    Product    @relation(fields: [productId], references: [id])
   quantity   Int

@@ -7,14 +7,7 @@ export const register = async (req: Request, res: Response) => {
     let { username, email, password } = req.body;
     const isExists = await prisma.user.findFirst({
       where: {
-        OR: [
-          {
-            username: username,
-          },
-          {
-            email: email,
-          },
-        ],
+        email: email,
       },
     });
     if (isExists) {
@@ -30,6 +23,20 @@ export const register = async (req: Request, res: Response) => {
         password: hashedPassword,
       },
     });
+
+    const cart = await prisma.cart.create({
+      data: {
+        userId: user.id,
+      },
+    });
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        cartId: cart.id,
+      },
+    });
+
     res.status(201).json({ success: true, user: user });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
@@ -58,4 +65,3 @@ export const signin = async (req: Request, res: Response) => {
     res.status(400).json({ success: false, error: error });
   }
 };
-
