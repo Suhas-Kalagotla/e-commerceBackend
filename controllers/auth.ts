@@ -60,8 +60,10 @@ export const signin = async (req: Request, res: Response) => {
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
+
     res.status(200).json({ success: true, user: user });
   } catch (error) {
     res.status(400).json({ success: false, error: error });
   }
 };
+

@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import prisma from "../prisma/prismaClient";
 import createError from "http-errors";
 import cors from "cors";
-import { authRouter, userRouter, productRouter } from "../routes";
+import { authRouter, userRouter, productRouter,cartRouter } from "../routes";
 import path from "path";
 
 dotenv.config();
@@ -18,6 +18,7 @@ app.use("/public", express.static(path.join(__dirname, "../public/uploads")));
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/product", productRouter);
+app.use("/cart",cartRouter); 
 
 app.use(async (req: Request, res: Response, next: express.NextFunction) => {
   const error = createError(404, "not found");
