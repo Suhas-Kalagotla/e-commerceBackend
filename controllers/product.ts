@@ -20,7 +20,7 @@ export const create = async (
     const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
     const buffer = Buffer.from(base64Data, "base64");
     const fileName =
-      Date.now() + "-" + Math.round(Math.random() * 1e9) + ".png";
+    Date.now() + "-" + Math.round(Math.random() * 1e9) + ".png";
     const filePath = path.join(__dirname, "../public/uploads", fileName);
 
     fs.writeFile(filePath, buffer, async (err) => {
